@@ -9,6 +9,8 @@
 ; + = Shift
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+
 ;Command-backspace deletes whole line
 <#BS::Send {LShift down}{Home}{LShift Up}{Del}
 
@@ -34,6 +36,12 @@
 ^Up::Send {LWin down}{Up}{LWin up} 
 ^Down::Send {LWin down}{Down}{LWin up} 
 
+
+;;Rhapsody-exclusive:
+
+;<#+r::Send ^+F5 ;;Make/Run
+<#+r::Send {CtrlDown}{ShiftDown}{F5}{ShiftUp}{CtrlUp} ;;Make/Run
+
 ; Assign ctrl+shift+arrows to move between windows instead
 ^+Left::Send {LWin down}{Shift down}{Left}{Shift up}{LWin up} 
 ^+Right::Send {LWin down}{Shift down}{Right}{Shift up}{LWin up} 
@@ -49,26 +57,6 @@ Send {alt up}
 return 
 
 Lwin & Tab::AltTab 		 	;;Works but overrides shiftalttab
-
-;!# & Tab::ShiftAltTab 	;;Not compatible with AltTab
-
-;;LAlt & Tab::ShiftAltTab
-;;LWin & +Shift::ShiftAltTab
-;;+LWin & Shift::ShiftAltTab
-;;<(#+)tab::ShiftAltTab
-;;LWin & LShift & Tab::ShiftAltTab
-;;(LWin & Shift) & Tab::ShiftAltTab
-
-;LWin & Tab:: 
-
-;if GetKeyState("Shift", "P")
-;	Send {ShiftAltTab}
-;else
-;	Send {AltTab}
-
-;Return 
-
-
 
 ; Selection (uses a combination of the above with shift)
 <!+Left::Send {ctrl down}{shift down}{Left}{shift up}{ctrl up}
@@ -86,16 +74,25 @@ Lwin & Tab::AltTab 		 	;;Works but overrides shiftalttab
 <#w::Send ^w
 
 
-;The following section replaces Ctrl+Key with  Win+Key
+;Remaps ctrl+mouse events to win+mouse events
+<#LButton::Send ^{Click} ;Ctrl+LeftClick
+<#WheelUp::Send {WheelUp} ;Ctrl+LeftClick
+
+;Disable Win-key -search and introduce Spotlight-like behavior of CMD + Space
+LWin::return
+LWin & SPACE::Send {LWin}
+
+
 <#a::Send ^a
 <#b::Send ^b
 <#c::Send ^c
+<#+c::Send ^+c ;Copy in Git Bash
 <#d::Send ^d 
 ;<#e::Send ^e ;Open explorer is handy
 ;following won't remap using the normal method
 <#f::Send ^f
 <#g::Send ^g
-<#h::Send Send ^h
+<#h::Send ^h
 <#i::Send ^i
 <#j::Send ^j
 <#k::Send ^k
@@ -113,6 +110,7 @@ Lwin & Tab::AltTab 		 	;;Works but overrides shiftalttab
 <#+t::Send ^+t ;Undoes closing tab in Chrome, Firefox
 <#u::Send ^u
 <#v::Send ^v
+<#+v::Send ^+v ;Paste in Git Bash
 <#x::Send ^x
 <#+z::Send ^y
 <#z::Send ^z
@@ -154,3 +152,5 @@ else
 	Send r
 }
 return
+
+
