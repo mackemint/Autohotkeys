@@ -37,11 +37,6 @@
 ^Down::Send {LWin down}{Down}{LWin up} 
 
 
-;;Rhapsody-exclusive:
-
-;<#+r::Send ^+F5 ;;Make/Run
-<#+r::Send {CtrlDown}{ShiftDown}{F5}{ShiftUp}{CtrlUp} ;;Make/Run
-
 ; Assign ctrl+shift+arrows to move between windows instead
 ^+Left::Send {LWin down}{Shift down}{Left}{Shift up}{LWin up} 
 ^+Right::Send {LWin down}{Shift down}{Right}{Shift up}{LWin up} 
@@ -50,13 +45,13 @@
 
 <#Enter::Send ^{Enter}
 
-<#+tab:: 	;;Works, but needs to press twice for normal behavior
-Send {alt down}{tab down} 
-KeyWait, LWin 
-Send {alt up} 
-return 
+;<#+tab:: 	;;Works, but needs to press twice for normal behavior
+;Send {alt down}{tab down} 
+;KeyWait, LWin 
+;Send {alt up} 
+;return 
+;Lwin & Tab::AltTab 		 	;;Works but overrides shiftalttab
 
-Lwin & Tab::AltTab 		 	;;Works but overrides shiftalttab
 
 ; Selection (uses a combination of the above with shift)
 <!+Left::Send {ctrl down}{shift down}{Left}{shift up}{ctrl up}
@@ -79,8 +74,8 @@ Lwin & Tab::AltTab 		 	;;Works but overrides shiftalttab
 <#WheelUp::Send {WheelUp} ;Ctrl+LeftClick
 
 ;Disable Win-key -search and introduce Spotlight-like behavior of CMD + Space
-LWin::return
-LWin & SPACE::Send {LWin}
+;LWin::return
+;LWin & SPACE::Send {LWin}
 
 
 <#a::Send ^a
@@ -121,7 +116,13 @@ LWin & SPACE::Send {LWin}
 <#5::Send ^5
 <#6::Send ^6
 <#7::Send ^7
+!7::Send |		; alt+7 for "pipe" character
+^!7::Send \		; alt+shift+7 for "backslash" character
 <#8::Send ^8
+!8::Send {{} ;For { use the following combination: [Alt] + [(] 
+!9::Send {}}	;For } use the following combination: [Alt] + [)]   
+!+8::Send [	;For [ use the following combination: [Alt] + [Shift] + [(] 
+!+9::Send ]	;For ] use the following combination: [Alt] + [Shift] + [)]   
 <#9::Send ^9
 
 ;;Transport controls, as placed on Apple keyboard  
