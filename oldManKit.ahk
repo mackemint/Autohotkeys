@@ -1,8 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; OSX style keys;
-; 
+; MacOS style keys;
+;
 ; https://autohotkey.com/docs/Hotkeys.htm
-; 
+;
 ; # = Win
 ; ! = Alt
 ; ^ = Ctrl
@@ -45,13 +45,38 @@
 
 <#Enter::Send ^{Enter}
 
-;<#+tab:: 	;;Works, but needs to press twice for normal behavior
-;Send {alt down}{tab down} 
-;KeyWait, LWin 
-;Send {alt up} 
-;return 
-;Lwin & Tab::AltTab 		 	;;Works but overrides shiftalttab
+;;alt+shift+tab
+<#+tab::
+	Send {alt down}{shift down}{tab down} 
+	KeyWait, LWin 
+	Send {alt up}{shift up} 
+return
+;;alt+tab
+<#tab::
+	Send {alt down}{tab down} 
+	KeyWait, LWin 
+	Send {alt up} 
+return 
 
+; LWin::
+; 	if GetKeyState("SpaceDown")
+; 		Send {LWin}
+; 		Return
+; 	if GetKeyState("LWinUp")
+; 		Return
+; 	; while(GetKeyState("LWinDown"))
+; 	; {
+; 	; 	if GetKeyState("LButton")
+; 	; 		Send ^{Click}
+; 	; 		Return
+
+; 	; 	if GetKeyState("WheelUp")
+; 	; 		Send {WheelUp}
+; 	; 		Return
+; 	; 	if GetKeyState("LWinUp")
+; 	; 		Break
+; 	; }
+; Return
 
 ; Selection (uses a combination of the above with shift)
 <!+Left::Send {ctrl down}{shift down}{Left}{shift up}{ctrl up}
@@ -71,20 +96,20 @@
 
 ;Remaps ctrl+mouse events to win+mouse events
 <#LButton::Send ^{Click} ;Ctrl+LeftClick
-<#WheelUp::Send {WheelUp} ;Ctrl+LeftClick
+<#WheelUp::Send ^{WheelUp} ;TODO Ctrl-Zoom
+<#WheelDown::Send ^{WheelDown} ;TODO Ctrl-Zoom
 
 ;Disable Win-key -search and introduce Spotlight-like behavior of CMD + Space
 ;LWin::return
-;LWin & SPACE::Send {LWin}
-
+;LWin & SPACE::Send {LWin} ; TODO requires pressing space multiple times in Win10
 
 <#a::Send ^a
 <#b::Send ^b
 <#c::Send ^c
 <#+c::Send ^+c ;Copy in Git Bash
 <#d::Send ^d 
+<#+d::Send ^+d 
 ;<#e::Send ^e ;Open explorer is handy
-;following won't remap using the normal method
 <#f::Send ^f
 <#g::Send ^g
 <#h::Send ^h
@@ -116,14 +141,16 @@
 <#5::Send ^5
 <#6::Send ^6
 <#7::Send ^7
-!7::Send |		; alt+7 for "pipe" character
-^!7::Send \		; alt+shift+7 for "backslash" character
+!7::Send |		; alt+7 for "pipe" character 
+RAlt & 7::Send |		; right alt+7 for "pipe" character 
++!7::Send \ 		; alt+shift+7 for "backslash" character 
 <#8::Send ^8
 !8::Send {{} ;For { use the following combination: [Alt] + [(] 
 !9::Send {}}	;For } use the following combination: [Alt] + [)]   
 !+8::Send [	;For [ use the following combination: [Alt] + [Shift] + [(] 
 !+9::Send ]	;For ] use the following combination: [Alt] + [Shift] + [)]   
 <#9::Send ^9
+<#'::Send ^'
 
 ;;Transport controls, as placed on Apple keyboard  
 F7:: Send {Media_Prev}
