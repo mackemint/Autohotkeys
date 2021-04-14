@@ -9,10 +9,13 @@
 ; + = Shift
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
+;#InstallKeybdHook
 
 ;Command-backspace deletes whole line
 <#BS::Send {LShift down}{Home}{LShift Up}{Del}
+
+;Can't map Fn button, so RWin-backspace sends Delete
+>#BS::Send {Del}
 
 ;alt-delete deletes previous word
 !BS::Send {LCtrl down}{Backspace}{Lctrl up}
@@ -57,6 +60,13 @@ return
 	KeyWait, LWin 
 	Send {alt up} 
 return 
+
+;Alt 2 = @
+<!2::send @
+;Alt § = <
+<!sc029::send <
+;Alt shift § = >
+<!+sc029::send >
 
 ; LWin::
 ; 	if GetKeyState("SpaceDown")
