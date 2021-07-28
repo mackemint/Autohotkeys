@@ -68,26 +68,6 @@ return
 ;Alt shift § = >
 <!+sc029::send >
 
-; LWin::
-; 	if GetKeyState("SpaceDown")
-; 		Send {LWin}
-; 		Return
-; 	if GetKeyState("LWinUp")
-; 		Return
-; 	; while(GetKeyState("LWinDown"))
-; 	; {
-; 	; 	if GetKeyState("LButton")
-; 	; 		Send ^{Click}
-; 	; 		Return
-
-; 	; 	if GetKeyState("WheelUp")
-; 	; 		Send {WheelUp}
-; 	; 		Return
-; 	; 	if GetKeyState("LWinUp")
-; 	; 		Break
-; 	; }
-; Return
-
 ; Selection (uses a combination of the above with shift)
 <!+Left::Send {ctrl down}{shift down}{Left}{shift up}{ctrl up}
 <!+Right::Send {ctrl down}{shift down}{Right}{shift up}{ctrl up}
@@ -103,20 +83,43 @@ return
 <#q::Send !{F4}
 <#w::Send ^w
 
+; GetKeyState, state, LWin
+; 	if GetKeyState("Space")
+; 		Send {LWin}
+; 	if state="U"
+; 		Return
+; 	while(GetKeyState("LWinDown"))
+; 	{
+; 		if GetKeyState("LButton")
+; 			Send ^{Click}
+; 			Return
+; 		if GetKeyState("WheelUp")
+; 			Send {WheelUp}
+; 			Return
+; 		if GetKeyState("WheelDown")
+; 			Send {WheelDown}
+; 			Return
+; 		if GetKeyState("LWinUp")
+; 			Break
+; 	}
+; Return
 
 ;Remaps ctrl+mouse events to win+mouse events
-<#LButton::Send ^{Click} ;Ctrl+LeftClick
+<#LButton::Send ^{MouseClick} ;Ctrl+LeftClick
 <#WheelUp::Send ^{WheelUp} ;TODO Ctrl-Zoom
 <#WheelDown::Send ^{WheelDown} ;TODO Ctrl-Zoom
 
-;Disable Win-key -search and introduce Spotlight-like behavior of CMD + Space
-;LWin::return
-;LWin & SPACE::Send {LWin} ; TODO requires pressing space multiple times in Win10
+; Disable Win-key -search and introduce Spotlight-like behavior of CMD + Space
+<#Space::Send {LWin} ; TODO requires pressing space multiple times in Win10
+LWin::return ; Disable win-key only
 
 <#a::Send ^a
 <#b::Send ^b
-<#c::Send ^c
-<#+c::Send ^+c ;Copy in Git Bash
+#IfWinActive ahk_exe WindowsTerminal.exe
+	<#c::Send ^+c ;Copy in Git Bash
+#IfWinActive
+	<#c::Send ^c
+
 <#d::Send ^d 
 <#+d::Send ^+d 
 ;<#e::Send ^e ;Open explorer is handy
@@ -139,8 +142,11 @@ return
 <#t::Send ^t
 <#+t::Send ^+t ;Undoes closing tab in Chrome, Firefox
 <#u::Send ^u
-<#v::Send ^v
-<#+v::Send ^+v ;Paste in Git Bash
+#IfWinActive ahk_exe WindowsTerminal.exe
+	<#v::Send ^+v ;Paste in Git Bash
+#IfWinActive
+	<#v::Send ^v
+
 <#x::Send ^x
 <#+z::Send ^y
 <#z::Send ^z
